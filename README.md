@@ -1,3 +1,3 @@
-## C++ Entertainment System (CES)
+## C++ Entertainment System (CppES)
 
 #### An NES Emulator
