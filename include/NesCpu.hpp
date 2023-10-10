@@ -1,9 +1,9 @@
-#ifndef CPU_HPP
-#define CPU_HPP
-
-#include "component.hpp"
+#ifndef NES_CPU_HPP
+#define NES_CPU_HPP
 
 #include "stdint.h"
+
+#include "NesComponent.hpp"
 
 // https://www.nesdev.org/wiki/CPU_registers
 struct cpu_registers {
@@ -16,10 +16,10 @@ struct cpu_registers {
 };
 
 
-class Cpu : public Component {
+class NesCpu : public NesComponent {
   public:
-    Cpu();
-    ~Cpu();
+    NesCpu();
+    ~NesCpu();
 
     virtual void powerOn();
 
@@ -33,7 +33,6 @@ class Cpu : public Component {
 
 
   private:
-
     cpu_registers m_registers;
 
 

@@ -1,7 +1,7 @@
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef NES_COMPONENT_HPP
+#define NES_COMPONENT_HPP
 
-class Component {
+class NesComponent {
   public:
     virtual void reset() = 0;
     virtual void powerOn() = 0;

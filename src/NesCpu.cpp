@@ -1,10 +1,10 @@
-#include "cpu.hpp"
+#include "NesCpu.hpp"
 
-Cpu::Cpu() {
+NesCpu::NesCpu() {
 
 }
 
-Cpu::~Cpu() {
+NesCpu::~NesCpu() {
 
 }
 
@@ -12,7 +12,7 @@ Cpu::~Cpu() {
 * Initialize the CPU
 * Details for initial values at: https://www.nesdev.org/wiki/CPU_power_up_state
 */
-void Cpu::powerOn() {
+void NesCpu::powerOn() {
   P() = 0x34;
   A() = 0;
   X() = 0;
