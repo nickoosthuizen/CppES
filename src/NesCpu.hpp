@@ -4,17 +4,9 @@
 #include "stdint.h"
 
 #include "NesComponent.hpp"
-
-// https://www.nesdev.org/wiki/CPU_registers
-struct cpu_registers {
-  uint8_t A; // Accumulator: with ALU supports using status reg for carrying, overflow detection and such
-  uint8_t X; // Index: can be used as loop counters easily, using INC/DEC and branch instructions
-  uint8_t Y; // Index: same as X
-  uint16_t PC; // Program Counter
-  uint8_t S; // Stack Pointer
-  uint8_t P; // Status Register 
-};
-
+#include "NesMemory.hpp"
+#include "NesCpuInstruction.hpp"
+#include "NesCpuRegisters.hpp"
 
 class NesCpu : public NesComponent {
   public:
@@ -34,8 +26,25 @@ class NesCpu : public NesComponent {
 
   private:
     cpu_registers m_registers;
+};
 
+class NesCpuInstruction {
+  public:
+    NesCpuInstruction(AddressMode);
+    virtual void execute(NesMemory &mem, cpu_registers &regs, AddressMode mode) = 0;
+    virtual int getNumBytes() = 0;
+    virtual int getCycles() = 0;
+};
 
+class ORA: public NesCpuInstruction {
+  public:
+    ORA(AddressMode);
+    virtual void execute(NesMemory &mem, cpu_registers &regs);
+    virtual int getNumBytes();
+    virtual int getCycles();
+
+  private:
+    AddressMode mode;
 };
 
 #endif

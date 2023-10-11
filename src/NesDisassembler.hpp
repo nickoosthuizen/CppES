@@ -7,8 +7,16 @@
 
 class NesDisassembler {
   public:
-  // disassemble the instructions over range startByte to endByte
-  int disassemble6052(NesMemory &mem, uint16_t pc);
+    NesDisassembler(NesMemory *mem);
+
+    std::string memBytesToHexStr(uint16_t pc, int numBytes);
+
+    // disassemble the instructions over range startByte to endByte
+    int disassemble6052(uint16_t pc);
+
+  private:
+    NesMemory *mem;
+  
 };
 
 #endif

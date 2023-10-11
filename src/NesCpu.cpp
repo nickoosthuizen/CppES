@@ -1,4 +1,6 @@
 #include "NesCpu.hpp"
+#include "NesCpuRegisters.hpp"
+
 
 NesCpu::NesCpu() {
 
