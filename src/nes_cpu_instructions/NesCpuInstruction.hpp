@@ -22,14 +22,12 @@ enum class AddressMode {
   ZeroPageY
 };
 
-
-
 class NesCpuInstruction {
   public:
     NesCpuInstruction(AddressMode mode);
     virtual int execute(NesMemory &mem, NesCpuRegisters regs) = 0;
     int getInstructionSize();
-    uint8_t getOperand(NesMemory &mem, NesCpuRegisters regs);
+    int getOperand(NesMemory &mem, NesCpuRegisters regs);
   private:
     AddressMode m_mode;
 };

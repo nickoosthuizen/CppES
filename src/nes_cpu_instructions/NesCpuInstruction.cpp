@@ -21,8 +21,55 @@ int NesCpuInstruction::getInstructionSize() {
   }
 }
 
-uint8_t NesCpuInstruction::getOperand(NesMemory &mem, NesCpuRegisters regs) {
-  
+// TODO: Check for what to do with overflow in indexed addressing
+int NesCpuInstruction::getOperand(NesMemory &mem, NesCpuRegisters regs) {
+  switch(m_mode) {
+    case AddressMode::Implied: {
+      return 0; // implied instructions don't use an operand
+    }
+    case AddressMode::Immediate: {
+      return mem.getByte(regs.PC+1);
+    }
+    case AddressMode::Absolute: {
+      uint16_t addr = mem.getTwoByteLittleEndian(regs.PC+1);
+      return mem.getByte(addr);
+    }
+    case AddressMode::ZeroPage: {
+      uint16_t addr = mem.getByte(regs.PC+1);
+      return mem.getByte(addr);
+    }
+    case AddressMode::AbsoluteX: {
+      uint16_t addr = mem.getTwoByteLittleEndian(regs.PC+1) + regs.X;
+      return mem.getByte(addr);
+    }
+    case AddressMode::AbsoluteY: {
+      uint16_t addr = mem.getTwoByteLittleEndian(regs.PC+1) + regs.Y;
+      return mem.getByte(addr);
+    }
+    case AddressMode::ZeroPageX: {
+      // in zero page addressing, if the instruction would overflow, it rather wraps around
+      uint8_t addr = mem.getByte(regs.PC+1) + regs.X;
+      return mem.getByte((uint16_t)addr);
+    }
+    case AddressMode::ZeroPageY: {
+      uint8_t addr = mem.getByte(regs.PC+1) + regs.Y;
+      return mem.getByte((uint16_t)addr);
+    }
+    case AddressMode::IndirectX: {
+      uint8_t addr = mem.getByte(regs.PC+1) + regs.X;
+      uint16_t effectiveAddr = mem.getTwoByteLittleEndian((uint16_t)addr);
+      return mem.getByte(effectiveAddr);
+    }
+    case AddressMode::IndirectY: {
+      uint8_t addr = mem.getByte(regs.PC+1);
+      uint16_t effectiveAddr = mem.getTwoByteLittleEndian(addr) + regs.Y;
+      return mem.getByte(effectiveAddr);
+    }
+    case AddressMode::Relative: {
+      // in relative addressing, the operand is actualy a signed byte
+      return (int8_t)mem.getByte(regs.PC+1);
+    }
+  }
 }
 
 int ORA::execute(NesMemory &mem, NesCpuRegisters regs) {

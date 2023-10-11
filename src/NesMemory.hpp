@@ -12,6 +12,7 @@ class NesMemory: public NesComponent {
     NesMemory();
     ~NesMemory();
     uint8_t getByte(uint16_t pc);
+    uint16_t getTwoByteLittleEndian(uint16_t pc);
 
   private:
     uint8_t *memory;
