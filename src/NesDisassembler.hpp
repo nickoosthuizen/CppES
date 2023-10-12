@@ -4,6 +4,7 @@
 #include "NesMemory.hpp"
 
 #include "stdint.h"
+#include <string>
 
 class NesDisassembler {
   public:
